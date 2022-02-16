@@ -16,12 +16,15 @@ pipeline {
                 sh 'mvn clean package'
                 }
                }
-         stage('Ansible-playbook-executing') {
+        
+         stage('After Build code transfer to ansible server') {
             steps {
-              ansiblePlaybook credentialsId: 'ansible-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/home/ansible/playbook/myplaybook.yml'
-                  
+                       sshagent(['ansible-key']) {
+                      sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/job1/webapp/target/webapp.war ansible@172.31.24.199:/opt/"
+                           
+                         
+                       }
+                }
                }
-               }
-
 }
 }
