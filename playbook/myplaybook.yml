@@ -1,0 +1,35 @@
+---
+- name: installing tomcat server
+  hosts: all
+  become: true
+  vars:
+    req_java: java-1.8.0-openjdk
+    req_tomcat_version: 8.5.75
+    tomcat_url: https://dlcdn.apache.org/tomcat/tomcat-{{req_tomcat_version.split('.')}}/v{{req_tomcat_version}}/bin/apache-tomcat-{{req_tomcat_version}}.tar.gz
+  tasks:
+    - name: updating packages
+      yum: "*"
+      state: latest
+    - name: installing java
+      yum:
+       - name: "{{req_java}}"
+         state: present
+    - name: Download tomcat package
+      get_url:
+         url: "{{tomcat_url}}"
+         dest: /opt/
+    - name: Extracting the tomcat package(untar)
+      unarchive:
+         src: "/opt/apache-tomcat-{{req_tomcat_version}}.tar.gz"
+         dest: /opt/
+         remote_src: yes
+    - name: Rename the tomcate directory
+      command: mv /opt/apache-tomcat-{{req_tomcat_version}} /opt/tomcat
+    - name: tomcat Service staring
+      shell: nohup /opt/tomcat/bin/startup.sh &
+    - name: Deploying static website on tomcat
+      copy:
+        src: /opt/webapp.war
+        dest: /opt/tomcat/webapps
+        remote_src: yes
+
