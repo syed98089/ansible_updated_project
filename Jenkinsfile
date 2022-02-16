@@ -28,7 +28,7 @@ pipeline {
                }
          stage('Ansible-playbook-executing') {
             steps {
-              ansiblePlaybook credentialsId: 'ansiblekey', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/opt/playbook'
+              ansiblePlaybook credentialsId: 'ansiblekey', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/opt/playbook/myplaybook.yml'
                }
                }
 
