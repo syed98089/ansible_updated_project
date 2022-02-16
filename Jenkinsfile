@@ -6,8 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-              
-              checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_code_pull', url: 'https://github.com/syed98089/ansible_project_updated.git']]]) 
+              checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_code_pull', url: 'https://github.com/syed98089/new_repo.git']]])
                 }
                 }
              
