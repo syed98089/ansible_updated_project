@@ -19,7 +19,7 @@ pipeline {
         
          stage('After Build code transfer to ansible server') {
             steps {
-                       sshagent(['ansible-key']) {
+                       sshagent(['ansiblekey']) {
                       sh "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/job1/webapp/target/webapp.war ansible@175.41.157.55:/opt/"
                            
                          
